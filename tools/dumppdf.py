@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Extract pdf structure in XML format"""
+"""
+.. tab:: 中文
+
+    以 XML 格式提取 pdf 结构
+
+.. tab:: 英文
+
+    Extract pdf structure in XML format"""
 
 import logging
 import os.path
@@ -218,8 +225,7 @@ def extractembedded(fname: str, password: str, extractdir: str) -> None:
         fileobj = doc.getobj(fileref.objid)
         if not isinstance(fileobj, PDFStream):
             error_msg = (
-                "unable to process PDF: reference for %r is not a "
-                "PDFStream" % filename
+                "unable to process PDF: reference for %r is not a PDFStream" % filename
             )
             raise PDFValueError(error_msg)
         if fileobj.get("Type") is not LITERAL_EMBEDDEDFILE:
@@ -295,7 +301,7 @@ def create_parser() -> ArgumentParser:
         type=str,
         default=None,
         nargs="+",
-        help="One or more paths to PDF files.",
+        help="一个或多个 PDF 文件的路径.",  # One or more paths to PDF files
     )
 
     parser.add_argument(
@@ -309,7 +315,7 @@ def create_parser() -> ArgumentParser:
         "-d",
         default=False,
         action="store_true",
-        help="Use debug logging level.",
+        help="使用的调试日志级别.",  # Use debug logging level
     )
     procedure_parser = parser.add_mutually_exclusive_group()
     procedure_parser.add_argument(
@@ -317,73 +323,76 @@ def create_parser() -> ArgumentParser:
         "-T",
         default=False,
         action="store_true",
-        help="Extract structure of outline",
+        help="提取大纲结构",  # Extract structure of outline
     )
     procedure_parser.add_argument(
         "--extract-embedded",
         "-E",
         type=str,
-        help="Extract embedded files",
+        help="提取嵌入的文件",  # Extract embedded files
     )
 
     parse_params = parser.add_argument_group(
         "Parser",
-        description="Used during PDF parsing",
+        description="PDF 解析期间使用",  # Used during PDF parsing
     )
     parse_params.add_argument(
         "--page-numbers",
         type=int,
         default=None,
         nargs="+",
-        help="A space-seperated list of page numbers to parse.",
+        help="要解析的页码列表，以空格分隔.",  # A space-seperated list of page numbers to parse
     )
     parse_params.add_argument(
         "--pagenos",
         "-p",
         type=str,
-        help="A comma-separated list of page numbers to parse. Included for "
-        "legacy applications, use --page-numbers for more idiomatic "
-        "argument entry.",
+        help="要解析的页码的逗号分隔列表。包含在旧版应用程序中，使用 --page-numbers 可获得更符合习惯的参数输入。",
+        # "A comma-separated list of page numbers to parse. Included for "
+        # "legacy applications, use --page-numbers for more idiomatic "
+        # "argument entry.",
     )
     parse_params.add_argument(
         "--objects",
         "-i",
         type=str,
-        help="Comma separated list of object numbers to extract",
+        help="要提取的对象编号的逗号分隔列表",  # Comma separated list of object numbers to extract
     )
     parse_params.add_argument(
         "--all",
         "-a",
         default=False,
         action="store_true",
-        help="If the structure of all objects should be extracted",
+        help="如果要提取所有对象的结构",  # If the structure of all objects should be extracted
     )
     parse_params.add_argument(
         "--show-fallback-xref",
         action="store_true",
-        help="Additionally show the fallback xref. Use this if the PDF "
-        "has zero or only invalid xref's. This setting is ignored if "
-        "--extract-toc or --extract-embedded is used.",
+        help="另外显示后备外部参照。如果 PDF 有零个或只有无效的外部参照，则使用此选项。如果使用 --extract-toc 或 --extract-embedded，则忽略此设置。",
+        # "Additionally show the fallback xref. Use this if the PDF "
+        # "has zero or only invalid xref's. This setting is ignored if "
+        # "--extract-toc or --extract-embedded is used.",
     )
     parse_params.add_argument(
         "--password",
         "-P",
         type=str,
         default="",
-        help="The password to use for decrypting PDF file.",
+        help="用于解密 PDF 文件的密码.",  # The password to use for decrypting PDF file
     )
 
     output_params = parser.add_argument_group(
         "Output",
-        description="Used during output generation.",
+        description="在输出生成期间使用.",  # Used during output generation
     )
     output_params.add_argument(
         "--outfile",
         "-o",
         type=str,
         default="-",
-        help='Path to file where output is written. Or "-" (default) to '
-        "write to stdout.",
+        help="写入输出的文件路径。或者“-”（默认）写入标准输出。",
+        # 'Path to file where output is written. Or "-" (default) to '
+        # "write to stdout.",
     )
     codec_parser = output_params.add_mutually_exclusive_group()
     codec_parser.add_argument(
@@ -391,21 +400,21 @@ def create_parser() -> ArgumentParser:
         "-r",
         default=False,
         action="store_true",
-        help="Write stream objects without encoding",
+        help="无需编码即可写入流对象",  # Write stream objects without encoding
     )
     codec_parser.add_argument(
         "--binary-stream",
         "-b",
         default=False,
         action="store_true",
-        help="Write stream objects with binary encoding",
+        help="使用二进制编码写入流对象",  # Write stream objects with binary encoding
     )
     codec_parser.add_argument(
         "--text-stream",
         "-t",
         default=False,
         action="store_true",
-        help="Write stream objects as plain text",
+        help="将流对象写入纯文本",  # Write stream objects as plain text
     )
 
     return parser

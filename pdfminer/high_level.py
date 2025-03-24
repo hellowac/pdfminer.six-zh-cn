@@ -39,7 +39,32 @@ def extract_text_to_fp(
     disable_caching: bool = False,
     **kwargs: Any,
 ) -> None:
-    """Parses text from inf-file and writes to outfp file-like object.
+    """
+    解析 inf 文件中的文本并写入类似文件的 outfp 对象。
+
+    接受多个可选参数，但默认值相对合理。需要注意的是：传入一个空的 LAParams 与传入 None 并不相同！
+
+    :param inf: 读取 PDF 结构的类似文件的对象，例如文件处理器（使用内置 `open()` 函数）或 `BytesIO`。
+    :param outfp: 用于写入文本的类似文件的对象。
+    :param output_type: 可能的值包括 'text'、'xml'、'html'、'hocr'、'tag'，但只有 'text' 能正常工作。
+    :param codec: 文本解码所使用的编解码器。
+    :param laparams: 来自 pdfminer.layout 的 LAParams 对象，默认为 None，但可能导致布局错误。
+    :param maxpages: 解析的最大页数。
+    :param page_numbers: 需要处理的零索引页码列表。
+    :param password: 对于加密的 PDF，解密所需的密码。
+    :param scale: 缩放因子。
+    :param rotation: 旋转因子。
+    :param layoutmode: 布局模式，默认为 'normal'，详见 pdfminer.converter.HTMLConverter。
+    :param output_dir: 若提供此参数，则创建一个 ImageWriter 用于提取的图像。
+    :param strip_control: 是否去除控制字符。
+    :param debug: 输出更详细的日志数据。
+    :param disable_caching: 是否禁用缓存。
+    :param other: 其他参数。
+    :return: 无返回值，该方法直接作用于两个流对象。若需获取字符串，可使用 StringIO。
+
+    |
+
+    Parses text from inf-file and writes to outfp file-like object.
 
     Takes loads of optional arguments but the defaults are somewhat sane.
     Beware laparams: Including an empty LAParams is not the same as passing
@@ -152,7 +177,21 @@ def extract_text(
     codec: str = "utf-8",
     laparams: Optional[LAParams] = None,
 ) -> str:
-    """Parse and return the text contained in a PDF file.
+    """
+    解析并返回 PDF 文件中的文本。
+
+    :param pdf_file: PDF 文件的文件路径或类似文件的对象。
+    :param password: 对于加密的 PDF，解密所需的密码。
+    :param page_numbers: 需要提取的零索引页码列表。
+    :param maxpages: 解析的最大页数。
+    :param caching: 是否缓存资源。
+    :param codec: 文本解码所使用的编解码器。
+    :param laparams: 来自 pdfminer.layout 的 LAParams 对象。如果为 None，则使用一些通常效果良好的默认设置。
+    :return: 一个包含所有提取文本的字符串。
+
+    |
+
+    Parse and return the text contained in a PDF file.
 
     :param pdf_file: Either a file path or a file-like object for the PDF file
         to be worked on.
@@ -194,7 +233,20 @@ def extract_pages(
     caching: bool = True,
     laparams: Optional[LAParams] = None,
 ) -> Iterator[LTPage]:
-    """Extract and yield LTPage objects
+    """
+    提取并生成 LTPage 对象。
+
+    :param pdf_file: 需要处理的 PDF 文件，可以是文件路径或类似文件的对象。
+    :param password: 对于加密的 PDF，解密所需的密码。
+    :param page_numbers: 需要提取的零索引页码列表。
+    :param maxpages: 要解析的最大页数。
+    :param caching: 是否缓存资源。
+    :param laparams: 来自 pdfminer.layout 的 LAParams 对象，若为 None，则使用默认设置（通常效果较好）。
+    :return: 生成的 LTPage 对象。
+
+    |
+
+    Extract and yield LTPage objects
 
     :param pdf_file: Either a file path or a file-like object for the PDF file
         to be worked on.

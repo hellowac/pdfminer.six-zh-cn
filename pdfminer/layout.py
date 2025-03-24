@@ -53,7 +53,20 @@ class IndexAssigner:
 
 
 class LAParams:
-    """Parameters for layout analysis
+    """
+    布局分析参数
+
+    :param line_overlap: 如果两个字符的重叠部分超过该值，则认为它们在同一行。该重叠值相对于两个字符的最小高度指定。
+    :param char_margin: 如果两个字符之间的距离小于该边距，则它们被视为同一行的一部分。该边距相对于字符的宽度指定。
+    :param word_margin: 如果同一行上的两个字符间距大于该边距，则它们被视为两个单独的单词，并在其间插入空格以提高可读性。该边距相对于字符的宽度指定。
+    :param line_margin: 如果两行之间的距离较小，则它们被视为同一段落的一部分。该边距相对于行高指定。
+    :param boxes_flow: 指定水平方向和垂直方向在确定文本框顺序时的重要性。取值范围为 -1.0（仅水平位置重要）到 +1.0（仅垂直位置重要）。也可以传递 `None` 以禁用高级布局分析，而仅根据文本框左下角的位置返回文本。
+    :param detect_vertical: 是否在布局分析时考虑垂直文本。
+    :param all_texts: 是否对图形中的文本执行布局分析。
+
+    |
+
+    Parameters for layout analysis
 
     :param line_overlap: If two characters have more overlap than this they
         are considered to be on the same line. The overlap is specified

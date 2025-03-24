@@ -1,6 +1,8 @@
 pdfminer.six
 ============
 
+[中文](./README.CN.md)
+
 [![Continuous integration](https://github.com/pdfminer/pdfminer.six/actions/workflows/actions.yml/badge.svg)](https://github.com/pdfminer/pdfminer.six/actions/workflows/actions.yml)
 [![PyPI version](https://img.shields.io/pypi/v/pdfminer.six.svg)](https://pypi.python.org/pypi/pdfminer.six/)
 [![gitter](https://badges.gitter.im/pdfminer-six/Lobby.svg)](https://gitter.im/pdfminer-six/Lobby?utm_source=badge&utm_medium)
@@ -16,7 +18,6 @@ interpreter or rendering device that uses the power of pdfminer.six for other pu
 
 Check out the full documentation on
 [Read the Docs](https://pdfminersix.readthedocs.io).
-
 
 Features
 --------
@@ -41,6 +42,7 @@ How to use
 
 * Install Python 3.8 or newer.
 * Install pdfminer.six.
+
   ```bash
   pip install pdfminer.six
 
@@ -54,7 +56,8 @@ How to use
   ```bash
   pdf2txt.py example.pdf
 
-* Or use it with Python. 
+* Or use it with Python.
+
   ```python
   from pdfminer.high_level import extract_text
 
@@ -65,7 +68,7 @@ How to use
 Contributing
 ------------
 
-Be sure to read the [contribution guidelines](https://github.com/pdfminer/pdfminer.six/blob/master/CONTRIBUTING.md). 
+Be sure to read the [contribution guidelines](https://github.com/pdfminer/pdfminer.six/blob/master/CONTRIBUTING.md).
 
 Acknowledgement
 ---------------
