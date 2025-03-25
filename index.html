@@ -1,0 +1,481 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="搜索" href="search.html" /><link rel="next" title="教程/Tutorials" href="tutorial/index.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>pdfminer.six 0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">pdfminer.six 0.0 文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  
+  <span class="sidebar-brand-text">pdfminer.six 0.0 文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/index.html">教程/Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/install.html">将 pdfminer.six 安装为 Python 包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/commandline.html">使用命令行从 PDF 中提取文本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/highlevel.html">使用 Python 从 PDF 中提取文本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/composable.html">使用 Python 从 PDF 中提取文本 - 第 2 部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/extract_pages.html">使用 Python 从 PDF 中提取元素</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-to 指南/guides</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/images.html">如何从 PDF 中提取图像</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/acro_forms.html">如何使用 PDFMiner 从 PDF 中提取 AcroForm 交互式表单字段</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/toc_target_page.html">如何解析 ToC 条目的目标页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/character_properties.html">如何从 PDF 中提取字体名称和大小</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="topic/index.html">主题/Topics</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="topic/converting_pdf_to_text.html">将 PDF 文件转换为文本</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">API 参考/Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/commandline.html">命令行接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/highlevel.html">高级函数接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/composable.html">可组合 API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="pdfminer-six">
+<h1>欢迎阅读 pdfminer.six 的文档！<a class="headerlink" href="#pdfminer-six" title="此标题的永久链接">#</a></h1>
+<p>Welcome to pdfminer.six’s documentation!</p>
+<a class="reference external image-reference" href="https://travis-ci.org/pdfminer/pdfminer.six"><img alt="Travis-ci build badge" src="https://travis-ci.org/pdfminer/pdfminer.six.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/pdfminer.six/"><img alt="PyPi version badge" src="https://img.shields.io/pypi/v/pdfminer.six.svg" /></a>
+<a class="reference external image-reference" href="https://gitter.im/pdfminer-six/Lobby?utm_source=badge&amp;utm_medium"><img alt="gitter badge" src="https://badges.gitter.im/pdfminer-six/Lobby.svg" /></a>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">中文</label><div class="tab-content docutils container">
+<p>我们理解 PDF。</p>
+<p>Pdfminer.six 是一个用于从 PDF 文档中提取信息的 Python 包。</p>
+<p>在 <a class="reference external" href="https://github.com/pdfminer/pdfminer.six">github</a> 上查看源代码。</p>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">英文</label><div class="tab-content docutils container">
+<p>We fathom PDF.</p>
+<p>Pdfminer.six is a python package for extracting information from PDF documents.</p>
+<p>Check out the source on <a class="reference external" href="https://github.com/pdfminer/pdfminer.six">github</a>.</p>
+</div>
+</div>
+<section id="id2">
+<h2>内容<a class="headerlink" href="#id2" title="此标题的永久链接">#</a></h2>
+<p>Content</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">中文</label><div class="tab-content docutils container">
+<p>本文档分为四个部分（根据 <a class="reference external" href="https://diataxis.fr">Diátaxis 文档框架</a>）。</p>
+<p><a class="reference internal" href="tutorial/index.html#tutorial"><span class="std std-ref">教程/Tutorials</span></a> 部分可帮助您首次设置和使用 pdfminer.six。如果这是您第一次使用 pdfminer.six，请阅读此部分。</p>
+<p><a class="reference internal" href="howto/index.html#howto"><span class="std std-ref">How-to 指南/guides</span></a> 提供了解决常见问题的具体方法。</p>
+<p>如果您想要了解有关 pdfminer.six 内部工作原理的更多背景信息，请查看 <a class="reference internal" href="topic/index.html#topic"><span class="std std-ref">主题/Topics</span></a>。</p>
+<p><a class="reference internal" href="reference/index.html#reference"><span class="std std-ref">API 参考/Reference</span></a> 为 pdfminer.six 中的所有常用类和函数提供了详细的 api 文档。</p>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">英文</label><div class="tab-content docutils container">
+<p>This documentation is organized into four sections (according to the <a class="reference external" href="https://diataxis.fr">Diátaxis
+documentation framework</a>). The
+<a class="reference internal" href="tutorial/index.html#tutorial"><span class="std std-ref">教程/Tutorials</span></a> section helps you setup and use pdfminer.six for the first
+time. Read this section if this is your first time working with pdfminer.six.
+The <a class="reference internal" href="howto/index.html#howto"><span class="std std-ref">How-to 指南/guides</span></a> offers specific recipies for solving common problems.
+Take a look at the <a class="reference internal" href="topic/index.html#topic"><span class="std std-ref">主题/Topics</span></a> if you want more background information on
+how pdfminer.six works internally. The <a class="reference internal" href="reference/index.html#reference"><span class="std std-ref">API 参考/Reference</span></a> provides
+detailed api documentation for all the common classes and functions in
+pdfminer.six.</p>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程/Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/install.html">将 pdfminer.six 安装为 Python 包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/commandline.html">使用命令行从 PDF 中提取文本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/highlevel.html">使用 Python 从 PDF 中提取文本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/composable.html">使用 Python 从 PDF 中提取文本 - 第 2 部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/extract_pages.html">使用 Python 从 PDF 中提取元素</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="howto/index.html">How-to 指南/guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/images.html">如何从 PDF 中提取图像</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/acro_forms.html">如何使用 PDFMiner 从 PDF 中提取 AcroForm 交互式表单字段</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/toc_target_page.html">如何解析 ToC 条目的目标页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/character_properties.html">如何从 PDF 中提取字体名称和大小</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="topic/index.html">主题/Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="topic/converting_pdf_to_text.html">将 PDF 文件转换为文本</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">API 参考/Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/commandline.html">命令行接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/highlevel.html">高级函数接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/composable.html">可组合 API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#pdfminer-six">为什么它被称为 pdfminer.six？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#pdfminer-six-pdfminer">pdfminer.six 与 pdfminer 的其他分支相比如何？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#cid-x">为什么文本输出中有 <cite>(cid:x)</cite> 值？</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id3">
+<h2>功能<a class="headerlink" href="#id3" title="此标题的永久链接">#</a></h2>
+<p>Features</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">中文</label><div class="tab-content docutils container">
+<ul class="simple">
+<li><p>将 PDF 文档中的所有对象解析为 Python 对象。</p></li>
+<li><p>以人类可读的方式分析和分组文本。</p></li>
+<li><p>提取文本、图像（JPG、JBIG2 和位图）、目录、标记内容等。</p></li>
+<li><p>支持 PDF-1.7 规范中的（几乎所有）功能</p></li>
+<li><p>支持中文、日文和韩文（CJK）语言以及垂直书写。</p></li>
+<li><p>支持各种字体类型（Type1、TrueType、Type3 和 CID）。</p></li>
+<li><p>支持 RC4 和 AES 加密。</p></li>
+<li><p>支持 AcroForm 交互式表单提取。</p></li>
+</ul>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">英文</label><div class="tab-content docutils container">
+<ul class="simple">
+<li><p>Parse all objects from a PDF document into Python objects.</p></li>
+<li><p>Analyze and group text in a human-readable way.</p></li>
+<li><p>Extract text, images (JPG, JBIG2 and Bitmaps), table-of-contents, tagged contents and more.</p></li>
+<li><p>Support for (almost all) features from the PDF-1.7 specification</p></li>
+<li><p>Support for Chinese, Japanese and Korean CJK) languages as well as vertical writing.</p></li>
+<li><p>Support for various font types (Type1, TrueType, Type3, and CID).</p></li>
+<li><p>Support for RC4 and AES encryption.</p></li>
+<li><p>Support for AcroForm interactive form extraction.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>安装说明<a class="headerlink" href="#id4" title="此标题的永久链接">#</a></h2>
+<p>Installation instructions</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">中文</label><div class="tab-content docutils container">
+<ul class="simple">
+<li><p>安装 Python 3.8 或更新版本。</p></li>
+<li><p>安装 pdfminer.six。</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install pdfminer.six
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>（可选）安装用于提取图像的额外依赖项。</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install &#39;pdfminer.six[image]&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>使用命令行界面从 pdf 中提取文本。</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pdf2txt.py example.pdf
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>或者与 Python 一起使用。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pdfminer.high_level</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_text</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">extract_text</span><span class="p">(</span><span class="s2">&quot;example.pdf&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">英文</label><div class="tab-content docutils container">
+<ul class="simple">
+<li><p>Install Python 3.8 or newer.</p></li>
+<li><p>Install pdfminer.six.</p></li>
+</ul>
+<dl class="simple">
+<dt>::</dt><dd><p>$ pip install pdfminer.six`</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>(Optionally) install extra dependencies for extracting images.</p></li>
+</ul>
+<dl class="simple">
+<dt>::</dt><dd><p>$ pip install ‘pdfminer.six[image]’`</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Use the command-line interface to extract text from pdf.</p></li>
+</ul>
+<dl class="simple">
+<dt>::</dt><dd><p>$ pdf2txt.py example.pdf`</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Or use it with Python.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pdfminer.high_level</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_text</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">extract_text</span><span class="p">(</span><span class="s2">&quot;example.pdf&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>贡献<a class="headerlink" href="#id5" title="此标题的永久链接">#</a></h2>
+<p>Contributing</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">中文</label><div class="tab-content docutils container">
+<p>我们欢迎任何对 pdfminer.six 做出贡献的人！但在做任何事情之前，请先查看一下 <a class="reference external" href="https://github.com/pdfminer/pdfminer.six/blob/master/CONTRIBUTING.md">贡献指南</a>。</p>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">英文</label><div class="tab-content docutils container">
+<p>We welcome any contributors to pdfminer.six! But, before doing anything, take
+a look at the <a class="reference external" href="https://github.com/pdfminer/pdfminer.six/blob/master/CONTRIBUTING.md">contribution guide</a>.</p>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="tutorial/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">教程/Tutorials</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2019, Yusuke Shinyama, Philippe Guglielmetti &amp; Pieter Marsman
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">欢迎阅读 pdfminer.six 的文档！</a><ul>
+<li><a class="reference internal" href="#id2">内容</a></li>
+<li><a class="reference internal" href="#id3">功能</a></li>
+<li><a class="reference internal" href="#id4">安装说明</a></li>
+<li><a class="reference internal" href="#id5">贡献</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/tabs.js"></script>
+    <script src="_static/translations.js"></script>
+    </body>
+</html>

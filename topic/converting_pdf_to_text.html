@@ -1,0 +1,676 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="API 参考/Reference" href="../reference/index.html" /><link rel="prev" title="主题/Topics" href="index.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>将 PDF 文件转换为文本 - pdfminer.six 0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">pdfminer.six 0.0 文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">pdfminer.six 0.0 文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/index.html">教程/Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/install.html">将 pdfminer.six 安装为 Python 包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/commandline.html">使用命令行从 PDF 中提取文本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/highlevel.html">使用 Python 从 PDF 中提取文本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/composable.html">使用 Python 从 PDF 中提取文本 - 第 2 部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/extract_pages.html">使用 Python 从 PDF 中提取元素</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../howto/index.html">How-to 指南/guides</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/images.html">如何从 PDF 中提取图像</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/acro_forms.html">如何使用 PDFMiner 从 PDF 中提取 AcroForm 交互式表单字段</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/toc_target_page.html">如何解析 ToC 条目的目标页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/character_properties.html">如何从 PDF 中提取字体名称和大小</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">主题/Topics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">将 PDF 文件转换为文本</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">API 参考/Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/commandline.html">命令行接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/highlevel.html">高级函数接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/composable.html">可组合 API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="pdf">
+<span id="topic-pdf-to-text"></span><h1>将 PDF 文件转换为文本<a class="headerlink" href="#pdf" title="此标题的永久链接">#</a></h1>
+<p>Converting a PDF file to text</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">中文</label><div class="tab-content docutils container">
+<p>大多数 PDF 文件看起来像是包含结构良好的文本。但实际上，PDF 文件并不包含类似段落、句子甚至单词的结构化文本。对于文本内容而言，PDF 文件只知道字符及其在页面上的位置。</p>
+<p>这使得从 PDF 文件中提取有意义的文本变得困难。组成段落的字符与组成表格、页脚或图例描述的字符没有本质区别。与 <cite>.txt</cite> 文件或 Word 文档等其他文档格式不同，PDF 格式并不包含连续的文本流。</p>
+<p>一个 PDF 文档由多个对象组成，这些对象共同描述一个或多个页面的外观，并可能包含额外的交互元素和高级应用数据。PDF 文件包含构成 PDF 文档的对象，以及相关的结构信息，并以一个完整的、自包含的字节序列表示。 <a class="footnote-reference brackets" href="#id9" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">英文</label><div class="tab-content docutils container">
+<p>Most PDF files look like they contain well-structured text. But the reality is
+that a PDF file does not contain anything that resembles paragraphs,
+sentences or even words. When it comes to text, a PDF file is only aware of
+the characters and their placement.</p>
+<p>This makes extracting meaningful pieces of text from PDF files difficult.
+The characters that compose a paragraph are no different from those that
+compose the table, the page footer or the description of a figure. Unlike
+other document formats, like a <cite>.txt</cite> file or a word document, the PDF format
+does not contain a stream of text.</p>
+<p>A PDF document consists of a collection of objects that together describe
+the appearance of one or more pages, possibly accompanied by additional
+interactive elements and higher-level application data. A PDF file contains
+the objects making up a PDF document along with associated structural
+information, all represented as a single self-contained sequence of bytes. <a class="footnote-reference brackets" href="#id10" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
+</div>
+</div>
+<section id="topic-pdf-to-text-layout">
+<span id="id3"></span><h2>布局分析算法<a class="headerlink" href="#topic-pdf-to-text-layout" title="此标题的永久链接">#</a></h2>
+<p>Layout analysis algorithm</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">中文</label><div class="tab-content docutils container">
+<p>PDFMiner 试图通过对字符定位使用启发式方法来重建部分结构。对于句子和段落来说，这种方法效果良好，因为可以将相邻的字符组合成有意义的群组。</p>
+<p>版面分析由三个不同的阶段组成：首先将字符组合成单词和行，然后将行组合成文本框，最后按层次结构组织文本框。这些阶段将在接下来的章节中讨论。版面分析的最终输出是 PDF 页面上布局对象的有序层次结构。</p>
+<figure class="align-center" id="id11">
+<img alt="../_images/layout_analysis_output.png" src="../_images/layout_analysis_output.png" />
+<figcaption>
+<p><span class="caption-text">版面分析的输出是一个布局对象的层次结构。</span><a class="headerlink" href="#id11" title="此图像的永久链接">#</a></p>
+</figcaption>
+</figure>
+<p>版面分析的输出在很大程度上取决于多个参数。这些参数都属于 <a class="reference internal" href="../reference/composable.html#api-laparams"><span class="std std-ref">LAParams</span></a> 类的一部分。</p>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">英文</label><div class="tab-content docutils container">
+<p>PDFMiner attempts to reconstruct some of those structures by using heuristics
+on the positioning of characters. This works well for sentences and
+paragraphs because meaningful groups of nearby characters can be made.</p>
+<p>The layout analysis consists of three different stages: it groups characters
+into words and lines, then it groups lines into boxes and finally it groups
+textboxes hierarchically. These stages are discussed in the following
+sections. The resulting output of the layout analysis is an ordered hierarchy
+of layout objects on a PDF page.</p>
+<figure class="align-center" id="id12">
+<img alt="../_images/layout_analysis_output.png" src="../_images/layout_analysis_output.png" />
+<figcaption>
+<p><span class="caption-text">The output of the layout analysis is a hierarchy of layout objects.</span><a class="headerlink" href="#id12" title="此图像的永久链接">#</a></p>
+</figcaption>
+</figure>
+<p>The output of the layout analysis heavily depends on a couple of parameters.
+All these parameters are part of the <a class="reference internal" href="../reference/composable.html#api-laparams"><span class="std std-ref">LAParams</span></a> class.</p>
+</div>
+</div>
+<section id="id4">
+<h3>将字符分组为单词和行<a class="headerlink" href="#id4" title="此标题的永久链接">#</a></h3>
+<p>Grouping characters into words and lines</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">中文</label><div class="tab-content docutils container">
+<p>从字符转换为文本的第一步是以有意义的方式对字符进行分组。每个字符都有一个 x 坐标和 y 坐标，分别表示其左下角和右上角的位置，即其边界框。Pdfminer.six 使用这些边界框来决定哪些字符属于同一组。</p>
+<p>彼此在水平方向和垂直方向上都足够接近的字符将被分组成一行。字符之间的接近程度由 <cite>char_margin</cite> （图中的 M）和 <cite>line_overlap</cite> （图中未标示）参数决定。两个字符的边界框之间的水平 <em>距离</em> 应小于 <cite>char_margin</cite>，垂直 <em>重叠</em> 应大于 <cite>line_overlap</cite>。</p>
+<style>
+    td {
+        text-align: center;
+    }
+</style>
+<table style="margin: 10px; padding: 10px;">
+    <tr>
+        <td style="text-align: right; border-right:1px red solid">&rarr;</td>
+        <td colspan="4"
+            style="text-align: left; border-left:1px red solid">&larr; <em><font
+                color="red">M</font></em></td>
+    </tr>
+    <tr>
+        <td style="border:1px solid"><code>Q u i</code></td>
+        <td style="border:1px solid"><code>c k</code></td>
+        <td width="10px"></td>
+        <td style="border:1px solid"><code>b r o w n</code></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: right; border-right:1px green solid">
+            &rarr;
+        </td>
+        <td></td>
+        <td colspan="2"
+            style="text-align: left; border-left:1px green solid">&larr;
+            <em><font color="green">W</font></em></td>
+    </tr>
+</table>
+<p><cite>char_margin</cite> 和 <cite>line_overlap</cite> 的取值是相对于字符边界框大小的。<cite>char_margin</cite> 相对于两个边界框中最大宽度的字符，而 <cite>line_overlap</cite> 则相对于最小高度的字符。</p>
+<p>由于 PDF 格式没有空格字符的概念，因此需要在字符之间插入空格。如果字符之间的间距大于 <cite>word_margin</cite> （图中的 W），则会插入一个空格。 <cite>word_margin</cite> 相对于新字符的最大宽度或高度。如果 <cite>word_margin</cite> 取值较小，则生成的单词间隔较小。需要注意的是， <cite>word_margin</cite> 至少应小于 <cite>char_margin</cite>，否则所有字符之间都不会插入空格。</p>
+<p>这一阶段的结果是一个由多个行组成的列表。每一行包含一系列字符。这些字符可能是 PDF 文件中的原始 <cite>LTChar</cite> 字符，也可能是用于表示单词间空格或行末换行符的插入 <cite>LTAnno</cite> 字符。</p>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">英文</label><div class="tab-content docutils container">
+<p>The first step in going from characters to text is to group characters in a
+meaningful way. Each character has an x-coordinate and a y-coordinate for its
+bottom-left corner and upper-right corner, i.e. its bounding box. Pdfminer.six
+uses these bounding boxes to decide which characters belong together.</p>
+<p>Characters that are both horizontally and vertically close are grouped onto
+one line. How close they should be is determined by the <cite>char_margin</cite>
+(M in the figure) and the <cite>line_overlap</cite> (not in figure) parameter. The horizontal
+<em>distance</em> between the bounding boxes of two characters should be smaller than
+the <cite>char_margin</cite> and the vertical <em>overlap</em> between the bounding boxes should
+be larger than the <cite>line_overlap</cite>.</p>
+<style>
+    td {
+        text-align: center;
+    }
+</style>
+<table style="margin: 10px; padding: 10px;">
+    <tr>
+        <td style="text-align: right; border-right:1px red solid">&rarr;</td>
+        <td colspan="4"
+            style="text-align: left; border-left:1px red solid">&larr; <em><font
+                color="red">M</font></em></td>
+    </tr>
+    <tr>
+        <td style="border:1px solid"><code>Q u i</code></td>
+        <td style="border:1px solid"><code>c k</code></td>
+        <td width="10px"></td>
+        <td style="border:1px solid"><code>b r o w n</code></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: right; border-right:1px green solid">
+            &rarr;
+        </td>
+        <td></td>
+        <td colspan="2"
+            style="text-align: left; border-left:1px green solid">&larr;
+            <em><font color="green">W</font></em></td>
+    </tr>
+</table>
+<p>The values of <cite>char_margin</cite> and <cite>line_overlap</cite> are relative to the size of
+the bounding boxes of the characters. The <cite>char_margin</cite> is relative to the
+maximum width of either one of the bounding boxes, and the <cite>line_overlap</cite> is
+relative to the minimum height of either one of the bounding boxes.</p>
+<p>Spaces need to be inserted between characters because the PDF format has no
+notion of the space character. A space is inserted if the characters are
+further apart than the <cite>word_margin</cite> (W in the figure). The <cite>word_margin</cite> is
+relative to the maximum width or height of the new character. Having a smaller
+<cite>word_margin</cite> creates smaller words. Note that the <cite>word_margin</cite> should at
+least be smaller than the <cite>char_margin</cite> otherwise none of the characters will
+be separated by a space.</p>
+<p>The result of this stage is a list of lines. Each line consists of a list of
+characters. These characters are either original <cite>LTChar</cite> characters that
+originate from the PDF file or inserted <cite>LTAnno</cite> characters that
+represent spaces between words or newlines at the end of each line.</p>
+</div>
+</div>
+</section>
+<section id="id5">
+<h3>将行分组为框<a class="headerlink" href="#id5" title="此标题的永久链接">#</a></h3>
+<p>Grouping lines into boxes</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">中文</label><div class="tab-content docutils container">
+<p>第二步是以有意义的方式对行进行分组。每一行的边界框由其包含的字符的边界框决定。与字符分组类似，pdfminer.six 也使用边界框来对行进行分组。</p>
+<p>彼此在水平方向上有重叠且在垂直方向上足够接近的行将被分组。行之间的垂直接近程度由 <cite>line_margin</cite> 参数决定。该参数是相对于边界框高度指定的。如果两个行的边界框顶部之间的间隙（见图中的 L <sub>1</sub> ）或底部之间的间隙（见图中的 L <sub>2</sub> ）小于 <cite>line_margin</cite> 乘以边界框高度的绝对值，则认为它们是接近的。</p>
+<style>
+    td {
+        text-align: center;
+    }
+</style>
+<table style="margin: 10px; padding: 10px;">
+    <tr>
+        <td></td>
+        <td></td>
+        <td align=right style="border-bottom:1px blue solid">&darr;</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid"><code>Q u i c k &nbsp; b r o w
+            n</code></td>
+        <td></td>
+        <td align=right style="border-bottom:1px blue solid">&darr;</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td align=center valign=center><em><font color="blue">
+            L<sub>1</sub>
+        </font></em></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td style="border:1px solid;">
+            <code>f o x</code>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+        <td align=right style="border-top:1px blue solid">&uarr;</td>
+        <td align=center valign=center><em><font color="blue">
+            L<sub>2</sub>
+        </font></em></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td align=right style="border-top:1px blue solid">&uarr;</td>
+    </tr>
+</table>
+<p>这一阶段的结果是一个由文本框组成的列表。每个文本框包含一个由多行组成的列表。</p>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">英文</label><div class="tab-content docutils container">
+<p>The second step is grouping lines in a meaningful way. Each line has a
+bounding box that is determined by the bounding boxes of the characters that
+it contains. Like grouping characters, pdfminer.six uses the bounding boxes
+to group the lines.</p>
+<p>Lines that are both horizontally overlapping and vertically close are grouped.
+How vertically close the lines should be is determined by the <cite>line_margin</cite>.
+This margin is specified relative to the height of the bounding box. Lines
+are close if the gap between the tops (see L <sub>1</sub> in the figure) and bottoms
+(see L <sub>2</sub>) in the figure) of the bounding boxes are closer together
+than the absolute line margin, i.e. the <cite>line_margin</cite> multiplied by the
+height of the bounding box.</p>
+<style>
+    td {
+        text-align: center;
+    }
+</style>
+<table style="margin: 10px; padding: 10px;">
+    <tr>
+        <td></td>
+        <td></td>
+        <td align=right style="border-bottom:1px blue solid">&darr;</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid"><code>Q u i c k &nbsp; b r o w
+            n</code></td>
+        <td></td>
+        <td align=right style="border-bottom:1px blue solid">&darr;</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td align=center valign=center><em><font color="blue">
+            L<sub>1</sub>
+        </font></em></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td style="border:1px solid;">
+            <code>f o x</code>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+        <td align=right style="border-top:1px blue solid">&uarr;</td>
+        <td align=center valign=center><em><font color="blue">
+            L<sub>2</sub>
+        </font></em></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td align=right style="border-top:1px blue solid">&uarr;</td>
+    </tr>
+</table>
+<p>The result of this stage is a list of text boxes. Each box consists of a list
+of lines.</p>
+</div>
+</div>
+</section>
+<section id="id6">
+<h3>按层次对文本框进行分组<a class="headerlink" href="#id6" title="此标题的永久链接">#</a></h3>
+<p>Grouping textboxes hierarchically</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">中文</label><div class="tab-content docutils container">
+<p>最后一步是以有意义的方式对文本框进行分组。该步骤会重复合并彼此最接近的两个文本框。</p>
+<p>文本框之间的接近程度是通过计算它们之间的区域（图中的蓝色区域）来确定的。换句话说，它是包含两个文本框的边界框的面积，减去单个文本框的边界框面积之和。</p>
+<style>
+    .background-blue {
+        background-color: lightblue;
+        border: 2px solid lightblue;
+    }
+</style>
+<table style="margin: 10px; padding: 10px;">
+    <tr>
+        <td style="border:1px solid; text-align: left">
+            <code>
+                Q u i c k &nbsp; b r o w n<br/> f o x
+            </code>
+        </td>
+        <td class="background-blue" colspan="3"></td>
+    </tr>
+    <tr style="height: 10px;">
+        <td class="background-blue" colspan="4"></td>
+    </tr>
+    <tr>
+        <td class="background-blue" colspan="3"></td>
+        <td style="border:1px solid"><code>j u m p s ...</code></td>
+    </tr>
+</table>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">英文</label><div class="tab-content docutils container">
+<p>The last step is to group the text boxes in a meaningful way. This step
+repeatedly merges the two text boxes that are closest to each other.</p>
+<p>The closeness of bounding boxes is computed as the area that is between the
+two text boxes (the blue area in the figure). In other words, it is the area of
+the bounding box that surrounds both lines, minus the area of the bounding
+boxes of the individual lines.</p>
+<style>
+    .background-blue {
+        background-color: lightblue;
+        border: 2px solid lightblue;
+    }
+</style>
+<table style="margin: 10px; padding: 10px;">
+    <tr>
+        <td style="border:1px solid; text-align: left">
+            <code>
+                Q u i c k &nbsp; b r o w n<br/> f o x
+            </code>
+        </td>
+        <td class="background-blue" colspan="3"></td>
+    </tr>
+    <tr style="height: 10px;">
+        <td class="background-blue" colspan="4"></td>
+    </tr>
+    <tr>
+        <td class="background-blue" colspan="3"></td>
+        <td style="border:1px solid"><code>j u m p s ...</code></td>
+    </tr>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>处理旋转字符<a class="headerlink" href="#id7" title="此标题的永久链接">#</a></h2>
+<p>Working with rotated characters</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">中文</label><div class="tab-content docutils container">
+<p>上述算法假设所有字符的方向相同。然而，在 PDF 中，任何书写方向都是可能的。
+为了适应这种情况，pdfminer.six 允许使用 <cite>detect_vertical</cite> 参数检测竖排文本。
+如果启用该参数，所有分组步骤都会按照 PDF 旋转 90 度（或 270 度）的方式进行处理。</p>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">英文</label><div class="tab-content docutils container">
+<p>The algorithm described above assumes that all characters have the same
+orientation. However, any writing direction is possible in a PDF. To
+accommodate for this, pdfminer.six allows detecting vertical writing with the
+<cite>detect_vertical</cite> parameter. This will apply all the grouping steps as if the
+pdf was rotated 90 (or 270) degrees</p>
+</div>
+</div>
+</section>
+<section id="id8">
+<h2>参考文献<a class="headerlink" href="#id8" title="此标题的永久链接">#</a></h2>
+<p>References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id9" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Adobe System Inc. (2007)。 <em>PDF 参考：Adobe 便携式文档格式，版本 1.7。</em></p>
+</aside>
+<aside class="footnote brackets" id="id10" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Adobe System Inc. (2007). <em>Pdf reference: Adobe portable document
+format, version 1.7.</em></p>
+</aside>
+</aside>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../reference/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">API 参考/Reference</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">主题/Topics</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2019, Yusuke Shinyama, Philippe Guglielmetti &amp; Pieter Marsman
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">将 PDF 文件转换为文本</a><ul>
+<li><a class="reference internal" href="#topic-pdf-to-text-layout">布局分析算法</a><ul>
+<li><a class="reference internal" href="#id4">将字符分组为单词和行</a></li>
+<li><a class="reference internal" href="#id5">将行分组为框</a></li>
+<li><a class="reference internal" href="#id6">按层次对文本框进行分组</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">处理旋转字符</a></li>
+<li><a class="reference internal" href="#id8">参考文献</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script src="../_static/tabs.js"></script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>
