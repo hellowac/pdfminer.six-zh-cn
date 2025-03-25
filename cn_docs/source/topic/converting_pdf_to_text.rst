@@ -86,7 +86,7 @@ Grouping characters into words and lines
 
     从字符转换为文本的第一步是以有意义的方式对字符进行分组。每个字符都有一个 x 坐标和 y 坐标，分别表示其左下角和右上角的位置，即其边界框。Pdfminer.six 使用这些边界框来决定哪些字符属于同一组。
 
-    彼此在水平方向和垂直方向上都足够接近的字符将被分组成一行。字符之间的接近程度由 `char_margin` （图中的 M）和 `line_overlap` （图中未标示）参数决定。两个字符的边界框之间的水平 *距离* 应小于 `char_margin`，垂直 *重叠* 应小于 `line_overlap`。
+    彼此在水平方向和垂直方向上都足够接近的字符将被分组成一行。字符之间的接近程度由 `char_margin` （图中的 M）和 `line_overlap` （图中未标示）参数决定。两个字符的边界框之间的水平 *距离* 应小于 `char_margin`，垂直 *重叠* 应大于 `line_overlap`。
 
     .. raw:: html
         :file: ../_static/layout_analysis.html
@@ -109,7 +109,7 @@ Grouping characters into words and lines
     (M in the figure) and the `line_overlap` (not in figure) parameter. The horizontal
     *distance* between the bounding boxes of two characters should be smaller than
     the `char_margin` and the vertical *overlap* between the bounding boxes should
-    be smaller than the `line_overlap`.
+    be larger than the `line_overlap`.
 
     .. raw:: html
         :file: ../_static/layout_analysis.html
